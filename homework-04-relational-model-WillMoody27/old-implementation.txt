@@ -1,0 +1,31 @@
+CS3810: Principles of Database Systems
+Instructor: Thyago Mota
+Student: William Hellems-Moody (Modified 2-14-24)
+Description: An Relational Schema for a Ticketing System
+
+// Entities
+Customers(email*: String, name: String, address: String, phone: String, credit_card: String) ✅
+Events(code*: String, title: String, season: String, year: int, venue_id: int) ✅
+Venues(id*: int, name: String) ✅
+Sectors(sector_number*: int, seats: int) ✅
+Seats(seat_number*: int, status: String) ✅
+EventDays(date*: date, time*: time) ✅
+
+
+--- Event/Venue ---
+Events_Venues(event_code*: String, id*: int) ✅ // 1. 
+
+--- Venue/Sectors ---
+Venues_Sectors(venue_id*: int, sector_number*: int) ✅ // 2.
+
+--- Sectors/Seats ---
+Sector_Seats(sector_number*: int, seat_number*: int) ✅ // 3.
+
+--- Event/EventDays ---
+Event_EventDays(event_code*: String, date*: date, time*: time) ✅ // 4.
+
+--- EventDays/Sectors ---
+Priced(date*: date, time*: time, sector_number*: int, price: float) ✅✅
+
+--- EventDays/Seats/Customers ---
+Purchased(email*: String, seat_number*: int, date*: date, time*: time) ✅ // 6.

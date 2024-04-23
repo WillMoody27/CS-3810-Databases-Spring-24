@@ -1,0 +1,54 @@
+
+erdiagram Clinic
+notation=crowsfoot
+
+// Create an ERD
+entity Physicians {
+    UPNI key
+    first_name
+    last_name
+    specialty
+    phone_number
+    address
+    email
+}
+
+entity Patients{
+    UUID key
+    first_name
+    last_name
+    address
+    phone_number
+}
+
+entity Insurance{
+    HPID key
+    name
+    toll_number
+}
+
+relationship services {
+    /*
+        given that patients are allows to see any of the physicians in the clinic, likewise physicians can provide services to any of the patients at the clinic,
+    */ 
+    Physicians[0..N] -> Patients[0..N]
+}
+
+relationship has_insurance {
+    /*
+        A patient can have one insurance policy, and an insurance policy can be held by many patients
+    */ 
+    Patients[0..N] -> Insurance[0..1]
+}
+
+/*
+    Relational Model Representation
+    Physicians(UPNI: String, first_name: String, last_name: String, specialty: String, phone_number: String, address: String, email: String)
+
+    Patients(UUID: String, first_name: String, last_name: String, address: String, phone_number: String)
+
+    Insurance(HPID: String, name: String, toll_number: String)
+
+    Services(Physicians_UPNI*: String, Patients_UUID*: String)
+
+*/ 

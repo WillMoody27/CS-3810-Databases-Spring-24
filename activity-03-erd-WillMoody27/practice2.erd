@@ -1,0 +1,40 @@
+/*
+# Practice #2
+
+Draw an E/R Diagram using crow's foot notation to represent:​ 
+
+* a sale is made of many items and the same item can appear on many different sales​; 
+* a sale is done by only one seller;
+* a seller can do many sales​. 
+*/
+
+erdiagram Items 
+notation=crowsfoot
+
+entity Items {
+}
+
+entity Sales {
+}
+
+entity Sellers {
+}
+
+
+// As sale is made of many items and the same item can appear on many different sales​ (Many - To - Many).
+relationship hasSold {
+    Sales[0..N] -> Items[N]
+}
+
+// A sale is done by only one seller (One - To - Many).
+relationship hasSale {
+    Sales[0..N] -> Sellers[1]
+}
+
+// A seller can do many sales​ (One - To - Many).
+relationship hasDone {
+    Sellers[1] -> Sales[N]
+}
+
+
+

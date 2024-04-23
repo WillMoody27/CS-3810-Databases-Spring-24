@@ -1,0 +1,78 @@
+// CS3810: Principles of Database Systems
+// Instructor: Thyago Mota
+// Student: William Hellems-Moody (Modified 2-18-24)
+// Description: An ERD for a Ticketing System
+
+erdiagram ticketing
+notation=crowsfoot
+
+entity Events {
+    code key 
+    title 
+    season 
+    year
+}
+
+entity Venues {
+    id key 
+    name
+}
+
+weak entity Sectors {
+    sector_number partial-key 
+    seats
+}
+
+weak entity Seats {
+    seat_number partial-key
+    status
+}
+
+weak entity EventDays { 
+    date partial-key 
+    time partial-key
+}
+
+entity Customers { 
+    email key 
+    name 
+    address
+    phone
+    credit_card
+}
+
+// Event/Venue
+relationship happens_in { 
+    // Since events is strong and venues is strong the relationship is strong so the venue id will be in the event entity
+    Events[0..N] -> Venues[1] // Strong -> Strong
+}
+
+// Venue/Sectors
+relationship organized_into { 
+    // Sectors will get the venue id from the venue entity since it is a weak entity in a 1-to-many relationship
+    Venues[1] -> Sectors[1..N]  // Strong -> weak
+}
+
+// Sectors/Seats
+relationship has { 
+    // Seats will get the venue id and sector number from the sector entity since it is a weak entity in a 1-to-many relationship
+    Sectors[1] -> Seats[1..N]  // weak -> weak ?
+}
+
+// Event/EventDays
+relationship happens_on {
+    // EventDays will get the event code from the event entity since it is a weak entity in a 1-to-many relationship
+    Events[1] -> EventDays[1..N]  // Strong -> weak
+}
+
+// EventDays/Sectors
+relationship priced {
+    EventDays[1..N] -> Sectors[1..N]  // weak -> weak
+    price
+}
+
+// EventDays/Seats/Customers
+relationship purchases {
+    Customers[1] -> Seats[1..N] -> EventDays[1..N] // Strong -> weak -> weak            
+}
+

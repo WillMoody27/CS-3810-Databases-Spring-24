@@ -1,0 +1,53 @@
+/*
+# Practice #1
+
+Draw an E/R Diagram using crow's foot notation to represent:​
+
+* employees work at one department at a time, while a department can (potentially) have many employees​;
+* a department might exist without an employee working at it;
+* an employee might exist without working at a department;
+* employees can have family members listed as dependents (for health benefits)​; 
+* each dependent is associated with only employee; 
+* an employee might not have dependents; 
+* a dependent cannot exist without being associated with an employee.
+*/ 
+
+erdiagram Department 
+notation=crowsfoot
+
+// employees can have family members listed as dependents (for health benefits)​; 
+
+entity Employees {
+}
+
+// each dependent is associated with only employee;
+entity Dependent {
+}
+
+entity Department {
+}
+
+// 1 - To - Many (Employees)
+relationship worksAt {
+    // Optional (0..1) - Mandatory (1)
+    /*
+        - A many employees can work at 0 or 1 department
+    */
+    Employees[0..N] -> Department[0..1]
+}
+
+// An employee might not have dependents or many dependents and each dependent is associated with only employee;
+/*
+ 1 - to - Many (Dependent)
+ -> try and use different verbs other than "has" or "owns"
+*/
+relationship has {
+    // A dependent cannot exist without being associated with an employee (not optional).
+    /*
+     - An employee (not optional) can have 0 or many dependents
+    */
+    Employees[1] -> Dependent[0..N]
+}
+
+
+

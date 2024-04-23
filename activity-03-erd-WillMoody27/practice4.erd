@@ -1,0 +1,71 @@
+
+/*
+# Practice #4
+
+Draw an E/R Diagram using crow's foot notation to represent:​
+
+- a company sells different types of products​;
+
+Attr Products:
+
+- each product has an unique number, a description, and a sell price​; 🔥
+
+- customers can buy products by placing orders​;
+
+Attr Orders:
+
+- an order has an unique number, a shipping address, and a customer name​;
+
+- an order is associated with one or more items, each of them based on a specific product and the quantity bought by the customer​;
+- items in an order are uniquely identified by a sequential number.
+*/
+
+erdiagram Company
+notation=crowsfoot
+
+// Define the entities associated with the company. The company is not a entity, but a collection of entities. It is a entity set{...}.
+
+entity Products {
+    productId key
+    desciption
+    price
+}
+
+entity Customers {
+    name
+}
+
+entity Items {
+    quantity
+}
+
+relationship basedOn {
+    // An item can be associated with one product -> a product can be associated with many items
+    //  - Items cannot exist without a product
+    Items[N] -> Products[1]
+}
+
+entity Orders {
+    number key
+    shippping_address
+    customer_name
+}
+
+// Order assoc with multiple orders  ->  Cannot have order without an item
+relationship has {
+    Orders[1] -> Items[N] // Mandatory 1 to many
+    // A order can have multiple items -> 
+}
+
+relationship placed {
+    // A customer can place multiple orders ->  Cannot have a order without a customer (1 -> many)
+    Customers[1] -> Orders[0..N]
+    // A Customer *places multiple orders -> A customer can exists without a customer (1 -> 0..many)
+    // A Customer *places multiple orders -> Can a customer not be related to an order (1 -> 0..many)
+
+    // Can a order exits without a customer? No, so it is mandatory
+    // Can a customer exist without a order? Yes, so it is optional
+}
+
+// For unique identifier we use the key attribute represented by the key keyword "key" in the entity definition. 
+// - The key attribute is the unique identifier for the entity.

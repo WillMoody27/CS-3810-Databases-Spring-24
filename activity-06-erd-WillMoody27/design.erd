@@ -1,0 +1,47 @@
+
+erdiagram Clinic
+notation=crowsfoot
+
+entity Physcians{
+    UPNI key
+    first_name
+    last_name
+    // should consider the possibility of having multiple specialties 
+    specialty 
+    phone_number
+    address
+    email
+}
+
+entity Patients{
+    UUID key
+    first_name
+    last_name
+    address
+    phone_number
+}
+
+entity Insurances {
+    HPID key
+    health_plan_name
+    tool_free
+}
+
+relationship attends {
+    /*
+     physicians in the clinic provide services to patients and patients are allowed to see any of the physicians in the clinic; 
+
+    */ 
+    Physcians[0..N] -> Patients[0..N]
+}
+
+relationship accepts {
+    /*
+    the clinic accepts different insurance plans and patients can use their insurance to pay for the services provided by the clinic
+    */
+    Patients[0..N] -> Insurances[0..1]
+    policy_number
+}
+
+
+

@@ -1,0 +1,34 @@
+
+erdiagram Movies
+notation=crowsfoot
+
+entity Movies {
+
+}
+
+relationship has_sequel {
+    // A Moves has a sequel
+    // Specifies the cardinality of the relationship along with the roles.
+    Movies[1 | "original"] ->  Movies[N | "sequel"]
+}
+
+entity A {}
+
+entity B {}
+
+relationship AB {
+    A[N] -> B[N | "<=10"]
+
+    // Define attributes - Only shown when hovering over the relationship in crow's foot notation.
+    x
+    y
+    z
+}
+
+entity Employees {
+}
+
+entity H1B_Visa_Holders extends Employees{
+    visa_info
+
+}

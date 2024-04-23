@@ -1,0 +1,99 @@
+@startuml todo #1
+class Department {
+    -name: String
+    -location: String
+}
+
+class Employee {
+    - id: int
+    -name: String
+    -email: String
+}
+
+class Dependent {
+    -name: String
+    -relationship: String
+}
+
+' Relationships between department and employees
+' employees work at one department at a time, while a department can (potentially) have many employees​;
+
+' Department cannot exist without employees (but employees can exist without a department)​;
+' - an employee "might" exist without working at a department;
+
+Deparment "1" o-> "0..N" Employee : departments
+Employee "1" o-> "0..1" Department : employees
+
+'  employees can have family members listed as dependents (for health benefits)​;
+' - an employee might not have dependents (They can also have many dependents)​;
+
+Employee "1" *-> "0..N" Dependent : dependents
+Dependent "1" o-> "1" Employee : dependents
+@enduml
+
+
+
+@startuml todo #2
+' # Sales, Items, and Sellers
+
+' Draw an UML Class Diagram to represent:
+
+' - a sale is made of many items and the same item can appear on many different sales​;
+' - a sale is done by only one seller;
+' - a seller can do many sale s .
+
+class Sale {
+}
+
+class Item {
+}
+
+class Seller {
+}
+
+' - a sale is made of many items and the same item can appear on many different sales​;
+Item "1" o-> "N" Sale : sales
+Sale "1" o-> "1" Item : items 
+
+Sale "1" o-> "1" Seller : seller 
+Seller "1" o-> "N" Sale : sales
+@enduml
+
+
+@startuml todo #3
+
+' # Courses, Sections, Students, and Instructors
+
+' Draw an UML Class Diagram to represent:​
+
+' - a course can have many sections​;
+' - a section is always associated with one course and cannot exist without a course;
+' - each section can have many students and each student can enroll in many different course sections​;
+' - a course section is taught by only one instructor​;
+' - a instructor can teach many course sections.
+
+
+class Course {}
+class Section {}
+class Student {}
+class Instructor{}
+
+' Relationships
+' - a course can have many sections (both are Strong - Aggregation)
+Course "1" *-> "0..N" Section : section
+
+' - a section is always associated with one course and cannot exist without a course (Section is dependent on Course - composition)
+Section "1" o-> "1" Course : course
+
+
+' - each section can have many students and each student can enroll in many different course sections​ (Both are Strong - Aggregation)
+Section "1" o-> "0..N" Student : students
+Student "N" o-> "1" Section : sections
+
+' - a instructor can teach many course sections​;
+Instructor "1" o-> "0..N" Section : section
+
+' - a course section is taught by only one instructor​; 
+Course "1" *-> "1" Instructor : instructors
+Instructor "1" o-> "1" Course : courses
+@enduml

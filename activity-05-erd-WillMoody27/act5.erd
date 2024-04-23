@@ -1,0 +1,37 @@
+
+
+erdiagram Events
+notation=crowsfoot
+
+entity Workshops {
+    name key
+    date
+}
+
+// Depenent upon the workshops
+entity Participants {
+    part_name key
+}
+
+weak entity Rooms {
+    floor partial-key // how they are identified
+    room_number partial-key
+    capacity
+}
+
+// Consider Venues, and dates as seperate entities for Normalization 1F and 2F. 
+relationship Workshops_Participants {
+    // The optional is up to use when designing the ERD.
+    Participants[0..N] -> Workshops[N]
+}
+
+// relationship Workshops_Venues {
+//     Workshops[1] -> Venues[1]
+// }
+
+weak relationship Workshops_Rooms {
+    Workshops[0..N] -> Rooms[1]
+}
+
+
+

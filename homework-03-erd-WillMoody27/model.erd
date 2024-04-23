@@ -1,0 +1,91 @@
+// CS3810: Principles of Database Systems
+// Instructor: Thyago Mota
+// Student: William Hellems-Moody
+// Date: 2024-02-5 (Modified - 2024-02-6)
+// Description: An ERD for a Paper Reviewing System
+
+erdiagram reviews
+notation=crowsfoot
+
+
+// Entities
+entity Papers  {
+    UUID key
+    title
+    abstract
+    file_name
+}
+
+entity Authors {
+    authors_email key
+    first_name
+    last_name
+}
+
+entity Reviewers { 
+    reviewers_email key
+    first_name
+    last_name
+    phone number
+    affiliation
+    topics
+}
+
+// Relationships
+relationship writes {
+
+    /*
+        EXPLANATION ✅: 
+        - A paper may have multiple authors, but only one of the authors is designated as the "contact" author. 
+
+        REL: 
+            Authors[N] -> Papers[N] (M:M)
+
+        Check for optional conditions: 
+        REL: 
+            CASE ✅: There must be at least one author for a single paper.
+            Authors[1..N] ->  Papers[N] (1:M)
+        
+        REL: 
+            CASE ✅: There can be zero or more authors for a single paper or many papers.
+
+    */ 
+    
+     Authors[1..N] -> Papers[0..N]
+}
+
+// Single author is designated as the "contact" author
+relationship is_contact {
+    /*
+        EXPLANATION ✅: 
+        - A single author is the mandatory "contact" author for a single paper. 
+        
+        REL: 
+            Authors[1] -> Papers[1] (1:1)
+
+            CASE ✅: There must be at least one author for a single paper. - Author is mandatory for a paper.
+    */
+     Authors[1] -> Papers[1..N]
+}
+
+
+/*
+ 2 - 4 reviewers are assigned to a paper
+ - The additional attributes are the review scores and comments
+    - The recommendation is one of the following: "strong accept", "accept", "weak accept", "borderline", "weak reject", "reject", or "strong reject"
+    - The review_committee_comments is a text field
+    - The authors_feedback is a text field
+*/ 
+relationship reviews {
+
+    Reviewers[N | "2 - 4 Reviewers each"] -> Papers[0..N]
+    technical_merit
+    readability
+    originality
+    relevance_to_conference
+    recommendation // "strong accept", "accept", "weak accept", "borderline", "weak reject", "reject", or "strong reject"
+    review_committee_comments
+    authors_feedback
+
+}
+

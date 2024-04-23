@@ -1,0 +1,41 @@
+/*
+# Practice #3
+
+Draw an E/R Diagram using crow's foot notation to represent:​ 
+
+* a course can have many sections​  (one - to - many); 
+* each section can have many students and each student can enroll in many different course sections (many - to - many); 
+* a course section is taught by only one instructor​ (one - to - many);
+* a instructor can teach many course sections (one - to - many).
+*/
+
+erdiagram Courses
+notation=crowsfoot
+
+
+entity Courses {
+}
+
+entity Sections {
+}
+
+entity Students {
+}
+
+entity Instructors {
+}
+
+// A course can have many sections​ (One - To - Many).
+relationship has {
+    Courses[1] -> Sections[0..N]
+}
+
+// Each section can have many students and each student can enroll in many different course sections (Many - To - Many).
+relationship enrolls {
+    Students[0..N] -> Sections[0..N]
+}
+
+// A Section is taught by only one instructor​ (One - To - Many).
+relationship hasInstructor {
+    Instructors[0..1] -> Sections[0..N]
+}

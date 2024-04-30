@@ -1,0 +1,80 @@
+// CS3810: Principles of Database Systems
+// Instructor: Thyago Mota
+// Student(s): William Hellems-Moody, David Carter
+// Description: ERD for the Job Hunters Database
+
+
+/*
+# Part A: Database Design
+
+The purpose of the "Job Hunters" database is to support the hiring process and to answer analytical queries. The minimum data requirements for the database are described below: 
+
+* positions are uniquely identified by an identification number; ✅
+* at a minimum, the system stores the position title, a brief description (300 characters), its creation date and expiration date (until when the position accepts candidates); ✅
+
+* in addition, a position also has an optional list of skills expected of candidates (separated by commas); ✅
+
+* positions are also classified into entry, middle and senior levels; ✅
+
+* position candidates create profiles saved in the database; ✅
+
+* information such as the candidate's email (unique attribute), name, address and telephone number need to be kept in the database; ✅
+
+* after creating the profile, the candidate can apply for different positions as desired;
+
+// ADDED -> A candidtate can apply to multiple positions but each application is for a single Candidate.
+
+* for each application for a position, the system records the date of the application and its status, using a 3-letter code: APL (“candidate”), RJT (“rejected”), SLT (“selected”), DRP (“discarded”). ") or HRD ("contractor");
+
+* the full description of each of the above status codes must be maintained in a separate table.
+
+*/
+
+erdiagram job_hunters
+notation=crowsfoot
+
+
+entity Positions {
+    id: int key
+    title: String
+    description: String // 300 chars
+    creation_date: Date
+    exp_date: Date
+    skills: String // Skills expected for the position (comma separated)
+    level: String // Entry, Mid, Senior, etc.
+}
+
+entity Candidates {
+    email: String key
+    name: String
+    address: String
+    telephone: String
+}
+
+weak entity Applications {
+    positions_id partial-key
+    profiles_email partial-key
+    status: String partial-key
+    date: Date
+}
+
+entity StatusCodes {
+    status_code: String key
+    description: String
+}
+
+weak relationship CandidateAppliesToPosition {
+    // A Candidate can apply for multiple position but each application is for a single Candidate.
+    Candidates[1] -> Applications[0..N]
+}
+
+// Each position can have multiple applications but each application is for a single position
+weak relationship PositionHasApplications {
+    // This means that multiple people can apply for the single position.
+    Positions[1] -> Applications[0..N]
+}
+
+weak relationship ApplicationHasStatusCode {
+    // Each application has a status code and each status code can be used for multiple applications.
+    Applications[0..N] -> StatusCodes[1]
+}
